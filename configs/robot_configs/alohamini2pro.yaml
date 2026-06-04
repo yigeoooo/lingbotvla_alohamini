@@ -1,0 +1,91 @@
+# LingBot robot config for LeRobot AlohaMini 2 Pro datasets.
+#
+# Raw LeRobot features:
+#   observation.state/action:
+#     0  arm_left_shoulder_pan.pos
+#     1  arm_left_shoulder_lift.pos
+#     2  arm_left_elbow_flex.pos
+#     3  arm_left_wrist_flex.pos
+#     4  arm_left_wrist_yaw.pos
+#     5  arm_left_wrist_roll.pos
+#     6  arm_left_gripper.pos
+#     7  arm_right_shoulder_pan.pos
+#     8  arm_right_shoulder_lift.pos
+#     9  arm_right_elbow_flex.pos
+#     10 arm_right_wrist_flex.pos
+#     11 arm_right_wrist_yaw.pos
+#     12 arm_right_wrist_roll.pos
+#     13 arm_right_gripper.pos
+#     14 x.vel
+#     15 y.vel
+#     16 theta.vel
+#     17 lift_axis.height_mm
+
+states:
+  - observation.state.arm.position:
+      origin_keys:
+        - observation.state:
+            start: 0
+            end: 6
+        - observation.state:
+            start: 7
+            end: 13
+  - observation.state.effector.position:
+      origin_keys:
+        - observation.state:
+            start: 6
+            end: 7
+        - observation.state:
+            start: 13
+            end: 14
+  - observation.state.base.velocity:
+      origin_keys:
+        - observation.state:
+            start: 14
+            end: 17
+  - observation.state.lift.position:
+      origin_keys:
+        - observation.state:
+            start: 17
+            end: 18
+
+actions:
+  - action.arm.position:
+      origin_keys:
+        - action:
+            start: 0
+            end: 6
+        - action:
+            start: 7
+            end: 13
+      subtract_state: true
+  - action.effector.position:
+      origin_keys:
+        - action:
+            start: 6
+            end: 7
+        - action:
+            start: 13
+            end: 14
+      subtract_state: false
+  - action.base.velocity:
+      origin_keys:
+        - action:
+            start: 14
+            end: 17
+      subtract_state: false
+  - action.lift.position:
+      origin_keys:
+        - action:
+            start: 17
+            end: 18
+      subtract_state: false
+
+images:
+  - observation.images.camera_top:
+      origin_keys: observation.images.chest
+  - observation.images.camera_wrist_left:
+      origin_keys: observation.images.wrist_left
+  - observation.images.camera_wrist_right:
+      origin_keys: observation.images.wrist_right
+
