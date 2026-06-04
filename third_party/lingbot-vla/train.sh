@@ -21,7 +21,7 @@ MASTER_ADDR=${MASTER_ADDR:=0.0.0.0}
 MASTER_PORT=${MASTER_PORT:=62500}
 
 # 使用 conda 环境的 torchrun（根据您的实际路径修改）
-TORCHRUN_PATH=${TORCHRUN_PATH:-/data/miniconda3/envs/lingbotvla_server/bin/torchrun}
+TORCHRUN_PATH=${TORCHRUN_PATH:-/home/jingyi.wang/.local/bin/torchrun}
 
 $TORCHRUN_PATH --nnodes=$NNODES --nproc-per-node $NPROC_PER_NODE --node-rank $NODE_RANK \
   --master-addr=$MASTER_ADDR --master-port=$MASTER_PORT $@ 2>&1 | tee log.txt
