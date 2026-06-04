@@ -25,7 +25,7 @@
 ## 项目结构
 
 ```text
-/home/yigeoooo/project/lingbotvla/
+/home/jingyi.wang/project/lingbotvla/
   configs/robot_configs/alohamini2pro.yaml       # LeRobot AlohaMini2Pro -> LingBot 特征映射
   configs/vla/alohamini2pro_real_load20000h.yaml # LingBot 训练配置
   scripts/verify_dataset.py                      # 检查 LeRobot 数据集是否是 Pro2 18 维
@@ -124,22 +124,22 @@ conda activate lingbotvla_server
 安装 LingBot 官方依赖。这个步骤需要在 LingBot 仓库目录执行，因为官方 `install.sh` 使用了相对路径：
 
 ```bash
-cd /home/yigeoooo/project/lingbotvla/third_party/lingbot-vla
+cd /home/jingyi.wang/project/lingbotvla/third_party/lingbot-vla
 bash install.sh
 ```
 
 再安装本适配工程：
 
 ```bash
-python -m pip install -e /home/yigeoooo/project/lingbotvla
+python -m pip install -e /home/jingyi.wang/project/lingbotvla
 ```
 
 快速检查：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/verify_dataset.py --help
-python /home/yigeoooo/project/lingbotvla/scripts/compute_norm.py --dry_run
-python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py --dry_run
+python /home/jingyi.wang/project/lingbotvla/scripts/verify_dataset.py --help
+python /home/jingyi.wang/project/lingbotvla/scripts/compute_norm.py --dry_run
+python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py --dry_run
 ```
 
 ## 1. 本地 PC 环境
@@ -149,14 +149,14 @@ python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py --dry_run
 ```bash
 conda create -y -n alohamini_bridge python=3.12
 conda activate alohamini_bridge
-python -m pip install -e "/home/yigeoooo/project/lerobot_alohamini[all]"
-python -m pip install -e /home/yigeoooo/project/lingbotvla
+python -m pip install -e "/home/jingyi.wang/project/lerobot_alohamini[all]"
+python -m pip install -e /home/jingyi.wang/project/lingbotvla
 ```
 
 检查：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/infer_robot.py --help
+python /home/jingyi.wang/project/lingbotvla/scripts/infer_robot.py --help
 ```
 
 本地 PC 不需要执行 LingBot 的 `install.sh`。
@@ -183,14 +183,14 @@ task 名称不要用 `robot task`、`My task description4` 这类占位文本。
 把 LeRobot v3 数据集放到 GPU 服务器可访问的位置，或者使用 Hugging Face repo id。
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/verify_dataset.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/verify_dataset.py \
   --repo_id <HF_USER>/<DATASET_REPO>
 ```
 
 如果是本地数据集，可以加：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/verify_dataset.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/verify_dataset.py \
   --repo_id <LOCAL_REPO_ID> \
   --root /path/to/local/lerobot/root
 ```
@@ -207,17 +207,18 @@ python /home/yigeoooo/project/lingbotvla/scripts/verify_dataset.py \
 先准备输出目录：
 
 ```bash
-mkdir -p /home/yigeoooo/project/lingbotvla/assets/norm_stats
+mkdir -p /home/jingyi.wang/project/lingbotvla/assets/norm_stats
 ```
 
 运行：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/compute_norm.py \
+python compute_norm.py \
+  -- \
   --data.data_name alohamini2pro \
   --data.train_path /path/to/lerobot_v3_dataset_or_hf_repo \
-  --data.robot_config_root /home/yigeoooo/project/lingbotvla/configs/robot_configs \
-  --data.norm_stats_file /home/yigeoooo/project/lingbotvla/assets/norm_stats/alohamini2pro.json
+  --data.robot_config_root /home/jingyi.wang/project/lingbotvla/configs/robot_configs \
+  --data.norm_stats_file /home/jingyi.wang/project/lingbotvla/assets/norm_stats/alohamini2pro.json
 ```
 
 参数含义：
@@ -234,7 +235,7 @@ python /home/yigeoooo/project/lingbotvla/scripts/compute_norm.py \
 先 dry-run 看最终调用的官方命令：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py --dry_run
+python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py --dry_run
 ```
 
 `train_lingbot.py` 包装脚本本身参数很少，真正的训练参数都放在 `--` 后面，原样传给 LingBot 官方 `tasks/vla/train_lingbotvla.py`。
@@ -252,12 +253,13 @@ python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py --dry_run
 建议正式训练时把关键参数显式写在命令里，方便复现实验：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py \
+  -- \
   --data.data_name alohamini2pro \
   --data.train_path /path/to/lerobot_v3_dataset_or_hf_repo \
-  --data.robot_config_root /home/yigeoooo/project/lingbotvla/configs/robot_configs \
-  --data.norm_stats_file /home/yigeoooo/project/lingbotvla/assets/norm_stats/alohamini2pro.json \
-  --train.output_dir /home/yigeoooo/project/lingbotvla/output/alohamini2pro \
+  --data.robot_config_root /home/jingyi.wang/project/lingbotvla/configs/robot_configs \
+  --data.norm_stats_file /home/jingyi.wang/project/lingbotvla/assets/norm_stats/alohamini2pro.json \
+  --train.output_dir /home/jingyi.wang/project/lingbotvla/output/alohamini2pro \
   --train.max_steps 40000 \
   --train.save_steps 10000 \
   --train.micro_batch_size 8 \
@@ -288,12 +290,13 @@ python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py \
 显存不够时可以这样起步：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py \
+  -- \
   --data.data_name alohamini2pro \
   --data.train_path /path/to/lerobot_v3_dataset_or_hf_repo \
-  --data.robot_config_root /home/yigeoooo/project/lingbotvla/configs/robot_configs \
-  --data.norm_stats_file /home/yigeoooo/project/lingbotvla/assets/norm_stats/alohamini2pro.json \
-  --train.output_dir /home/yigeoooo/project/lingbotvla/output/alohamini2pro \
+  --data.robot_config_root /home/jingyi.wang/project/lingbotvla/configs/robot_configs \
+  --data.norm_stats_file /home/jingyi.wang/project/lingbotvla/assets/norm_stats/alohamini2pro.json \
+  --train.output_dir /home/jingyi.wang/project/lingbotvla/output/alohamini2pro \
   --train.max_steps 20000 \
   --train.save_steps 5000 \
   --train.micro_batch_size 1 \
@@ -318,7 +321,7 @@ python /home/yigeoooo/project/lingbotvla/scripts/train_lingbot.py \
 训练完成后，在 GPU 服务器启动模型服务：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/start_lingbot_server.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/start_lingbot_server.py \
   --ckpt /path/to/posttraining_ckpt \
   --qwen25_path /path/to/Qwen2.5-VL-3B-Instruct \
   --port 8006 \
@@ -358,7 +361,7 @@ ssh -N -L 8006:127.0.0.1:8006 <USER>@<GPU_SERVER_PUBLIC_IP_OR_DOMAIN>
 使用 SSH 隧道时：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/infer_robot.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/infer_robot.py \
   --remote_ip <PI_IP> \
   --policy_host 127.0.0.1 \
   --policy_port 8006 \
@@ -370,7 +373,7 @@ python /home/yigeoooo/project/lingbotvla/scripts/infer_robot.py \
 不用 SSH 隧道、直接访问公网服务器时：
 
 ```bash
-python /home/yigeoooo/project/lingbotvla/scripts/infer_robot.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/infer_robot.py \
   --remote_ip <PI_IP> \
   --policy_host <GPU_SERVER_PUBLIC_IP_OR_DOMAIN> \
   --policy_port 8006 \
