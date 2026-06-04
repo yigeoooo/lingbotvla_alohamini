@@ -3,6 +3,10 @@
 set -x
 
 export TOKENIZERS_PARALLELISM=false
+
+# 默认使用 0 号 GPU
+export CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+
 if [ -z "$CUDA_VISIBLE_DEVICES" ]; then
   NPROC_PER_NODE=$(nvidia-smi -L | wc -l)
 else
@@ -16,6 +20,8 @@ NODE_RANK=${NODE_RANK:=0}
 MASTER_ADDR=${MASTER_ADDR:=0.0.0.0}
 MASTER_PORT=${MASTER_PORT:=62500}
 
+# 使用 conda 环境的 torchrun（根据您的实际路径修改）
+TORCHRUN_PATH=${TORCHRUN_PATH:-/data/miniconda3/envs/lingbotvla_server/bin/torchrun}
 
-torchrun --nnodes=$NNODES --nproc-per-node $NPROC_PER_NODE --node-rank $NODE_RANK \
+$TORCHRUN_PATH --nnodes=$NNODES --nproc-per-node $NPROC_PER_NODE --node-rank $NODE_RANK \
   --master-addr=$MASTER_ADDR --master-port=$MASTER_PORT $@ 2>&1 | tee log.txt

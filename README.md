@@ -213,7 +213,7 @@ mkdir -p /home/jingyi.wang/project/lingbotvla/assets/norm_stats
 运行：
 
 ```bash
-python compute_norm.py \
+python /home/jingyi.wang/project/lingbotvla/scripts/compute_norm.py \
   -- \
   --data.data_name alohamini2pro \
   --data.train_path /path/to/lerobot_v3_dataset_or_hf_repo \
