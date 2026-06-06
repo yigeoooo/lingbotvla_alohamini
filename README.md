@@ -253,7 +253,7 @@ python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py --dry_run
 建议正式训练时把关键参数显式写在命令里，方便复现实验：
 
 ```bash
-python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py \
+CUDA_VISIBLE_DEVICES=0,1 python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py \
   -- \
   --data.data_name alohamini2pro \
   --data.train_path /path/to/lerobot_v3_dataset_or_hf_repo \
@@ -266,7 +266,7 @@ python /home/jingyi.wang/project/lingbotvla/scripts/train_lingbot.py \
   --train.gradient_accumulation_steps 1 \
   --train.lr 5.0e-5 \
   --train.data_parallel_mode fsdp2 \
-  --train.enable_resume true
+  --train.enable_resume true > ~/logs/lingbot/lingbot.log 2>&1 & 
 ```
 
 参数含义：
