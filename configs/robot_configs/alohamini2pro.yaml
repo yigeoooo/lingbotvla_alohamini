@@ -82,10 +82,9 @@ actions:
       subtract_state: false
 
 images:
-  - observation.images.camera_top:
+  - observation.images.camera_chest:
       origin_keys: observation.images.chest
   - observation.images.camera_wrist_left:
       origin_keys: observation.images.wrist_left
   - observation.images.camera_wrist_right:
       origin_keys: observation.images.wrist_right
-

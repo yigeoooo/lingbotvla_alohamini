@@ -19,7 +19,7 @@ data:
     - base.velocity: 3
     - lift.position: 1
   cameras:
-    - camera_top
+    - camera_chest
     - camera_wrist_left
     - camera_wrist_right
   num_workers: 8
